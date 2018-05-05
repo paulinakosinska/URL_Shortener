@@ -19,3 +19,4 @@
     $newURL = $url["url"];
 
     header('Location: '.$newURL);
+?>
