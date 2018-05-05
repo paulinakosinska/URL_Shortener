@@ -1,22 +1,21 @@
 <?php
-    $url = $_POST['url'];
+    $id = $_GET['id'];
     $servername = "localhost";
     $dbname = "shortener";
     $username = "root";
     $password = "root";
-    $baseUrl = "localhost/redirect.php?id=";
-
-    //PHP Data Object PDO - library to connect to db
     try {
         $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $query = "INSERT INTO link VALUES (NULL, \"$url\")";
-        $connection->exec($query);
-        $id = $connection->lastInsertId();
+        $query = "SELECT l.url FROM link AS l WHERE l.id=$id";
+        $result = $connection->query($query);
+        $url = $result->fetch(PDO::FETCH_ASSOC);
     }
-    catch(PDOException $e)
+    catch(Exception $e)
     {
         echo "Connection failed: " . $e->getMessage();
     }
-    echo $baseUrl.$id;
-?>
+
+    $newURL = $url["url"];
+
+    header('Location: '.$newURL);
