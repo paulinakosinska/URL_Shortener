@@ -1,10 +1,12 @@
 <?php
-    $url = $_POST['url'];
+    $post = json_decode(file_get_contents('php://input'), true);
+    $url = $post["url"];
+
     $servername = "localhost";
     $dbname = "shortener";
     $username = "root";
     $password = "root";
-    $baseUrl = "localhost/redirect.php?id=";
+    $baseUrl = "http://localhost/redirect.php?id=";
 
     //PHP Data Object PDO - library to connect to db
     try {
@@ -18,5 +20,7 @@
     {
         echo "Connection failed: " . $e->getMessage();
     }
-    echo $baseUrl.$id;
+
+    $response = ['url' => $baseUrl.$id];
+    echo json_encode($response);
 ?>
