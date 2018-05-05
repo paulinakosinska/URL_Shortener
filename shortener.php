@@ -1,16 +1,16 @@
 <?php
     $url = $_POST['url'];
-
-    echo($url);
     $servername = "localhost";
     $dbname = "shortener";
-    $username = "roodt";
+    $username = "root";
     $password = "root";
 
     //PHP Data Object PDO - library to connect to db
     try {
         $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        echo "Connected successfully";
+        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $query = "INSERT INTO link VALUES (NULL, \"$url\")";
+        $connection->exec($query);
     }
     catch(PDOException $e)
     {
